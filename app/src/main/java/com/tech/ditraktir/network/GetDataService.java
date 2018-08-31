@@ -1,11 +1,11 @@
 package com.tech.ditraktir.network;
 
-import com.tech.ditraktir.model.RetroPhoto;
-
-import java.util.List;
+import com.tech.ditraktir.model.Project;
+import com.tech.ditraktir.model.GenericResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Query;
 
 /**
  * Created by mfstech on 30/08/18.
@@ -13,6 +13,12 @@ import retrofit2.http.GET;
 
 public interface GetDataService {
 
-    @GET("getProject.php")
-    Call<List<RetroPhoto>> getAllPhotos();
+    @GET("getTraktir.php")
+    Call<Project> getTraktir();
+
+    @GET("submitTraktir.php")
+    Call<GenericResponse> submitTraktir(
+            @Query("id") Integer id,
+            @Query("total") Integer total);
+
 }

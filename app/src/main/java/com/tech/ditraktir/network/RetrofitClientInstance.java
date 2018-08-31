@@ -11,7 +11,7 @@ import static com.tech.ditraktir.UnsafeOkHttpClient.getUnsafeOkHttpClient;
 public class RetrofitClientInstance {
 
     private static Retrofit retrofit;
-    private static final String BASE_URL = "http://128.199.190.210:7000/ditraktir/";
+    private static final String BASE_URL = "http://128.199.190.210:7000/ditraktir/v2/";
     static OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
 
     public static Retrofit getRetrofitInstance() {

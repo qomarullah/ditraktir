@@ -2,34 +2,48 @@ package com.tech.ditraktir.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class RetroPhoto {
+public class ProjectItem {
 
-    @SerializedName("albumId")
-    private Integer albumId;
     @SerializedName("id")
     private Integer id;
+
+    public Integer getTotal() {
+        return total;
+    }
+
+    public void setTotal(Integer total) {
+        this.total = total;
+    }
+
+    @SerializedName("total")
+    private Integer total;
+
     @SerializedName("title")
     private String title;
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    @SerializedName("category")
+    private String category;
     @SerializedName("url")
     private String url;
     @SerializedName("thumbnailUrl")
     private String thumbnailUrl;
 
-    public RetroPhoto(Integer albumId, Integer id, String title, String url, String thumbnailUrl) {
-        this.albumId = albumId;
+    public ProjectItem(Integer id, String title, String category,String url, String thumbnailUrl) {
         this.id = id;
         this.title = title;
+        this.category=category;
         this.url = url;
         this.thumbnailUrl = thumbnailUrl;
     }
 
-    public Integer getAlbumId() {
-        return albumId;
-    }
-
-    public void setAlbumId(Integer albumId) {
-        this.albumId = albumId;
-    }
 
     public Integer getId() {
         return id;

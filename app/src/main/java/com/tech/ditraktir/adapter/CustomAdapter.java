@@ -6,25 +6,30 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
-import com.tech.ditraktir.MainActivity;
 import com.tech.ditraktir.PurchaseActivity;
 import com.tech.ditraktir.R;
-import com.tech.ditraktir.model.RetroPhoto;
+import com.tech.ditraktir.model.ProjectItem;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
+
+import static android.provider.AlarmClock.EXTRA_MESSAGE;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder> {
 
-    private List<RetroPhoto> dataList;
+    private List<ProjectItem> dataList;
     private Context context;
 
-    public CustomAdapter(Context context,List<RetroPhoto> dataList){
+    public CustomAdapter(Context context,List<ProjectItem> dataList){
         this.context = context;
         this.dataList = dataList;
     }
@@ -33,17 +38,20 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
         public final View mView;
 
-        TextView txtTitle;
+        TextView txtTitle, txtCategory, txtTotal;
         private ImageView coverImage;
-        RelativeLayout rlClick;
+        Button btnTraktir;
 
         CustomViewHolder(View itemView) {
             super(itemView);
             mView = itemView;
 
             txtTitle = mView.findViewById(R.id.title);
+            txtCategory = mView.findViewById(R.id.category);
+            txtTotal = mView.findViewById(R.id.txtTotal);
+
             coverImage = mView.findViewById(R.id.coverImage);
-            rlClick = mView.findViewById(R.id.rlClick);
+            btnTraktir = mView.findViewById(R.id.btnTraktir);
         }
     }
 
@@ -54,18 +62,36 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
 
         return new CustomViewHolder(view);
     }
+    private String toRupiah(String nominal){
+        String hasil = "";
+
+        DecimalFormat toRupiah = (DecimalFormat) DecimalFormat.getCurrencyInstance();
+        DecimalFormatSymbols formatAngka = new DecimalFormatSymbols();
+
+        formatAngka.setCurrencySymbol("Rp. ");
+        formatAngka.setMonetaryDecimalSeparator(',');
+        toRupiah.setDecimalFormatSymbols(formatAngka);
+
+        hasil = toRupiah.format(Double.valueOf(nominal));
+
+        return hasil;
+    }
 
     @Override
-    public void onBindViewHolder(CustomViewHolder holder, int position) {
+    public void onBindViewHolder(CustomViewHolder holder, final int position) {
         holder.txtTitle.setText(dataList.get(position).getTitle());
-        holder.rlClick.setOnClickListener(new View.OnClickListener(){
+        holder.txtCategory.setText(dataList.get(position).getCategory());
+        String x = toRupiah(dataList.get(position).getTotal()+"");
+
+        holder.txtTotal.setText(x);
+        holder.btnTraktir.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
 
                 Intent intent = new Intent(context, PurchaseActivity.class);
                 //EditText editText = (EditText) findViewById(R.id.editText);
                 //String message = editText.getText().toString();
-                //intent.putExtra(EXTRA_MESSAGE, message);
+                intent.putExtra("PROJECT_ID", position);
                 context.startActivity(intent);
             }
         });
